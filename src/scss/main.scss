@@ -1,1 +1,94 @@
 // This is where you can import other stylesheets or write your scss code
+
+// 1. Reset list mixin
+
+@mixin reset-list {
+  padding: 0;
+  margin: 0;
+  list-style-type: none;
+}
+
+ul {
+  @include reset-list;
+}
+
+// 2. Center contents
+
+@mixin center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.test-container {
+  width: 100px;
+  height: 100px;
+  border: 1px solid black;
+  @include center;
+}
+
+// 3. Hide element
+
+@mixin hide {
+  display: none;
+}
+.hiding-element {
+  background-color: red;
+  @include hide;
+}
+
+// 4. Triangle
+
+@mixin triangle {
+  width: 0;
+  height: 0;
+  border-left: 50px solid transparent;
+  border-right: 50px solid transparent;
+  border-bottom: 50px solid black;
+}
+.arrow-up {
+  @include triangle;
+}
+
+// 5. Fade in animation
+
+@mixin fade ($duration) {
+  animation-name: fadeIn;
+  animation-duration: 1s;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+  opacity: 0.2;
+}
+
+@keyframes fadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+.box {
+  @include triangle;
+  @include fade(400ms);
+}
+
+// 6. Font sizing
+
+@mixin font-size($name) {
+  $sizes: (
+          "xs": 12px,
+          "sm": 14px,
+          "m": 16px,
+          "l": 32px,
+          "xl": 48px,
+          "xxl": 61px,
+  );
+
+  @if map-has-key($sizes, $name) == false {
+    @error "Property #{$name} must be either xs, sm, m, l, xl or xxl";
+  }
+
+  font-size: map-get($sizes, $name);
+}
+
+.font-test {
+  @include font-size("l");
+}
